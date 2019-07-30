@@ -1,0 +1,13 @@
+---
+- name: restart ntp
+  service:
+    name: "{{ ntp_daemon }}"
+    state: restarted
+
+- name: restart sssd
+  service:
+    name: "{{ sssd_daemon }}"
+    state: restarted
+
+- name: run pam auth update
+  shell: pam-auth-update --package

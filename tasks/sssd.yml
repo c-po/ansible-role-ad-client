@@ -1,0 +1,30 @@
+---
+- name: SSSD | include OS-specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family|lower }}.yml"
+
+- name: SSSD | include general variables
+  include_vars: sssd.yml
+
+- name: SSSD | install packages
+  package: name={{ item }} state=latest
+  with_items:
+    - sssd
+    - sssd-ad
+    - sssd-ldap
+    - sssd-krb5
+
+- name: SSSD | generate sssd.conf file
+  template:
+    src: sssd.conf.j2
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    mode: 0600
+  notify: restart sssd
+
+- name: SSSD | enable/start service on boot
+  service:
+    name: "{{ sssd_daemon }}"
+    state: started
+

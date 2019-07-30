@@ -1,0 +1,7 @@
+Name: Create home directory on first time login
+Default: yes
+Priority: 900
+Session-Interactive-Only: yes
+Session-Type: Additional
+Session:
+        required        pam_mkhomedir.so umask=0077 skel=/etc/skel

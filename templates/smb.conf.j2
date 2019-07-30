@@ -1,0 +1,25 @@
+[global]
+  workgroup = {{ samba_workgroup }}
+  realm = {{ domain_name | upper }}
+  security = ADS
+  wins support = no
+  dns proxy = no
+  os level = 0
+  local master = No
+  domain master = No
+  template shell = /bin/bash
+
+  disable netbios = yes
+  server services = +smb
+  guest account = nobody
+  invalid users = root bin daemon adm sync shutdown halt mail news uucp proxy www-data backup sshd sys man lis$
+  restrict anonymous = 0
+  usershare allow guests = yes
+  guest account = nobody
+  client use spnego = yes
+  client min protocol = SMB2
+  client max protocol = SMB3
+  client signing = auto
+  dedicated keytab file = /etc/krb5.keytab
+  kerberos method = secrets and keytab
+  log file = /var/log/samba/smbd.log

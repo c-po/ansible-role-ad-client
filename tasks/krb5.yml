@@ -1,0 +1,14 @@
+---
+
+- name: Krb5 | Install packages
+  package: name={{ item }} state=latest
+  with_items:
+    - krb5-user
+    - libpam-krb5
+
+- name: Krb5 | generate configuration | /etc/krb5.conf
+  template:
+      src: krb5.conf.j2
+      dest: /etc/krb5.conf
+      owner: root
+      mode: 0644

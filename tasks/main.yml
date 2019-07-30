@@ -1,0 +1,6 @@
+---
+- include: ntp.yml tags=ntpd
+- include: krb5.yml tags=krb5
+- include: samba.yml tags=samba
+- include: sssd.yml tags=sssd
+- include: pam.yml tags=pam

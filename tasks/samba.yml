@@ -1,0 +1,42 @@
+---
+- name: Samba | include OS-specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family|lower }}.yml"
+
+- name: Samba | install packages
+  package: name={{ item }} state=latest
+  with_items:
+    - samba
+
+- name: Samba | generate smb.conf file
+  template:
+    src: smb.conf.j2
+    dest: /etc/samba/smb.conf
+    owner: root
+    mode: 0640
+
+- name: Samba | stop nmbd
+  service:
+    name: nmbd
+    state: stopped
+
+- name: Samba | stop smbd
+  service:
+    name: smbd
+    state: stopped
+
+- name: AD Authentication | Configure | Join Active Directory
+  shell: net ads join -U {{ samba_ad_join_user }}%'{{ samba_ad_join_pass }}' {% if domain_server[0] %}-S {{ domain_server[0] }} {% endif %}
+  args:
+    creates: /etc/krb5.keytab
+
+- name: Samba | enable nmbd service on boot
+  service:
+    name: nmbd
+    state: restarted
+
+- name: Samba | enable smbd service on boot
+  service:
+    name: smbd
+    state: restarted

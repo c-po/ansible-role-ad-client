@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+[libdefaults]
+    default_realm = {{ domain_name | upper }}
+    kdc_timesync = 1
+    ccache_type = 4
+    forwardable = true
+    proxiable = true
+    dns_lookup_realm = false
+    dns_lookup_kdc = false
+
+[realms]
+    {{ domain_name | upper }} = {
+    {% for server in domain_server %}
+    kdc = {{ server }}
+    {% endfor %}
+    admin_server = {{ domain_server[0] }}
+        default_domain = {{ domain_name | lower }}
+    }
+
+[domain_realm]
+    .{{ domain_name | lower }} = {{ domain_name | upper }}
+    {{ domain_name | lower }} = {{ domain_name | upper }}

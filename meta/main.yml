@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Christian Poessinger
+  description: Role allows you to provision Active Directory logins on Ubuntu/Debian machines.
+  company: MYBLL-NET
+  license: BSD
+  min_ansible_version: 2.0
+  platforms:
+  - name: Ubuntu
+    versions:
+    - bionic
+  - name: Debian
+    versions:
+    - buster
+  galaxy_tags:
+  - system
+  - auth
+  - ad
+dependencies: []

@@ -1,0 +1,16 @@
+---
+ntp_timezone: "Europe/Berlin"
+
+domain_server:
+  - ad1.exmaple.com
+  - ad2.example.com
+
+domain_name: "example.com"
+
+sssd_debug: "0x0010"
+sssd_cache_cred: "false"
+sssd_filter_user: root
+sssd_filter_group: root
+sssd_ldap_schema: ad
+sssd_ldap_id_mapping: "true"
+sssd_ldap_enumerate: "false"

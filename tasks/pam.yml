@@ -1,0 +1,10 @@
+---
+
+- name: Add pam_mkhomedir for Debian machines
+  copy:
+    src: pam_mkhomedir
+    dest: /usr/share/pam-configs/mkhomedir
+  when: ansible_os_family == "Debian"
+  notify:
+    - run pam auth update
+
