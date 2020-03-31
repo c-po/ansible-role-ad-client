@@ -6,6 +6,7 @@ domain_server:
   - ad2.example.com
 
 domain_name: "example.com"
+samba_share_home: False
 
 sssd_debug: "0x0010"
 sssd_cache_cred: "false"

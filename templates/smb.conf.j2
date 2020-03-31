@@ -24,3 +24,34 @@
     dedicated keytab file = /etc/krb5.keytab
     kerberos method = secrets and keytab
     log file = /var/log/samba/smbd.log
+
+{% if samba_share_home is defined %}
+[homes]
+    comment = Home Directories
+    browsable = no
+    read only = no
+    create mask = 0644
+    directory mask = 0755
+    valid users = %S
+{% endif %}
+
+{% if samba_shares is defined %}
+{% for s in samba_shares %}
+[{{ s.name }}]
+{% if s.comment %}
+    comment = {{ s.comment }}
+{% endif %}
+    path = {{ s.path }}
+    browsable = {{ s.browsable | default('no') }}
+    read only = {{ s.read_only | default('yes') }}
+    create mask = {{ s.create_mask | default('600') }}
+    directory mask = {{ s.directory_mask | default('700') }}
+{% if s.read_list is defined %}
+    read list = {{ s.read_list | unique | join(" ") }}
+{% endif %}
+    read only = {{ s.read_only | default('yes') }}
+{% if s.write_list is defined %}
+    write list = {{ s.write_list | unique | join(" ") }}
+{% endif %}
+{% endfor %}
+{% endif %}
